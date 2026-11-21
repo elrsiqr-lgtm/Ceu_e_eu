@@ -1,5 +1,5 @@
 import type { Ctx } from '../App';
-import type { Memory } from '../lib/db';
+import type { Memory } from '../lib/memories';
 import { formatShort } from '../lib/dates';
 import { Header, Photo } from './ui';
 
@@ -14,7 +14,7 @@ export default function Gallery({ ctx, list }: { ctx: Ctx; list: Memory[] | null
           {list.map((m) => (
             <button key={m.id} className="tile" onClick={() => ctx.go({ name: 'memory', id: m.id, from: 'gallery' })}
               aria-label={`Memória de ${formatShort(m.date)}`}>
-              <Photo blob={m.thumb} alt={`Céu de ${formatShort(m.date)}`} />
+              <Photo src={m.thumbUrl} alt={`Céu de ${formatShort(m.date)}`} />
             </button>
           ))}
         </div>

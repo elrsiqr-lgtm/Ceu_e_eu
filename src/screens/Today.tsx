@@ -1,5 +1,5 @@
 import type { Ctx } from '../App';
-import type { Memory } from '../lib/db';
+import type { Memory } from '../lib/memories';
 import { formatLong, formatShort, greeting, todayISO } from '../lib/dates';
 import { Icon, Photo, Sparkle } from './ui';
 
@@ -22,7 +22,7 @@ export default function Today({ ctx, list }: { ctx: Ctx; list: Memory[] | null }
       </div>
       {last && (
         <button className="lastcard" onClick={() => ctx.go({ name: 'memory', id: last.id, from: 'today' })}>
-          <Photo blob={last.thumb} alt="Miniatura da última memória" />
+          <Photo src={last.thumbUrl} alt="Miniatura da última memória" />
           <span><strong>Sua última memória</strong><small>{formatShort(last.date)}</small></span>
           <Icon name="chev" />
         </button>

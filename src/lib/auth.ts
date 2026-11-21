@@ -1,46 +1,56 @@
-import { users, uid, type User } from './db';
+import { supabase } from './supabase';
+import { disablePush } from './push';
 
-const KEY = 'ceu.session';
-const enc = new TextEncoder();
-const b64 = (b: ArrayBuffer | Uint8Array) => btoa(String.fromCharCode(...new Uint8Array(b as ArrayBuffer)));
-const unb64 = (s: string): Uint8Array<ArrayBuffer> => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+function friendly(message: string): string {
+  const m = message.toLowerCase();
+  if (m.includes('invalid login')) return 'E-mail ou senha incorretos.';
+  if (m.includes('not confirmed')) return 'Confirme seu e-mail (veja a caixa de entrada) antes de entrar.';
+  if (m.includes('already registered')) return 'Já existe uma conta com este e-mail.';
+  if (m.includes('rate limit') || m.includes('too many')) return 'Muitas tentativas. Aguarde alguns minutos e tente de novo.';
+  if (m.includes('password') && m.includes('characters')) return 'A senha precisa ter pelo menos 8 caracteres.';
+  if (m.includes('same password') || m.includes('different from the old')) return 'Escolha uma senha diferente da anterior.';
+  if (m.includes('failed to fetch') || m.includes('network')) return 'Sem conexão. Verifique a internet e tente de novo.';
+  return message;
+}
+const fail = (e: { message: string }): never => { throw new Error(friendly(e.message)); };
+const MIN_PW = 8;
 
-async function hash(password: string, salt: Uint8Array<ArrayBuffer>) {
-  const key = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
-  return b64(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 200_000, hash: 'SHA-256' }, key, 256));
+/** Retorna `needsConfirmation` quando o projeto exige confirmação de e-mail antes do primeiro login. */
+export async function signUp(email: string, password: string): Promise<{ needsConfirmation: boolean }> {
+  if (password.length < MIN_PW) throw new Error('A senha precisa ter pelo menos 8 caracteres.');
+  const { data, error } = await supabase.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: window.location.origin } });
+  if (error) return fail(error);
+  // com confirmação ligada, e-mail já existente volta "sucesso" sem identidades
+  if (data.user && data.user.identities?.length === 0) throw new Error('Já existe uma conta com este e-mail.');
+  return { needsConfirmation: !data.session };
 }
 
-export const normEmail = (e: string) => e.trim().toLowerCase();
-
-export async function signUp(email: string, password: string): Promise<User> {
-  email = normEmail(email);
-  if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error('Informe um e-mail válido.');
-  if (password.length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.');
-  if (await users.byEmail(email)) throw new Error('Já existe uma conta com este e-mail.');
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const user: User = { id: uid(), email, salt: b64(salt), hash: await hash(password, salt), createdAt: Date.now() };
-  await users.add(user);
-  setSession(user.id);
-  return user;
+export async function signIn(email: string, password: string): Promise<void> {
+  const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+  if (error) fail(error);
 }
 
-export async function signIn(email: string, password: string): Promise<User> {
-  const user = await users.byEmail(normEmail(email));
-  const ok = user && (await hash(password, unb64(user.salt))) === user.hash;
-  if (!user || !ok) throw new Error('E-mail ou senha incorretos.');
-  setSession(user.id);
-  return user;
+/** Envia o e-mail de recuperação. O link volta ao app e dispara o evento PASSWORD_RECOVERY. */
+export async function requestPasswordReset(email: string): Promise<void> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: window.location.origin });
+  if (error) fail(error);
 }
 
-/** Redefine a senha. Como os dados vivem só neste aparelho, a posse do aparelho é a prova de acesso. */
-export async function resetPassword(email: string, newPassword: string): Promise<void> {
-  if (newPassword.length < 8) throw new Error('A senha precisa ter pelo menos 8 caracteres.');
-  const user = await users.byEmail(normEmail(email));
-  if (!user) throw new Error('Nenhuma conta com este e-mail neste aparelho.');
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  await users.update({ ...user, salt: b64(salt), hash: await hash(newPassword, salt) });
+export async function updatePassword(password: string): Promise<void> {
+  if (password.length < MIN_PW) throw new Error('A senha precisa ter pelo menos 8 caracteres.');
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) fail(error);
 }
 
-export const getSession = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
-export const setSession = (id: string) => { try { localStorage.setItem(KEY, id); } catch { /* ignore */ } };
-export const signOut = () => { try { localStorage.removeItem(KEY); } catch { /* ignore */ } };
+export async function signOut(): Promise<void> {
+  await disablePush().catch(() => {}); // a inscrição pertence ao usuário que sai
+  await supabase.auth.signOut();
+}
+
+/** Exclui conta, fotos e registros (Edge Function `delete-account`), depois encerra a sessão. */
+export async function deleteAccount(): Promise<void> {
+  await disablePush().catch(() => {});
+  const { error } = await supabase.functions.invoke('delete-account');
+  if (error) throw new Error('Não foi possível excluir a conta agora. Tente novamente.');
+  await supabase.auth.signOut({ scope: 'local' });
+}

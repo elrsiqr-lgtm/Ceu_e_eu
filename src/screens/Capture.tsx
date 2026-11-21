@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Ctx } from '../App';
-import { drafts, memories, uid, type Draft, type PhotoSource } from '../lib/db';
+import { drafts, type Draft } from '../lib/drafts';
+import { memories, DuplicateDateError, type PhotoSource } from '../lib/memories';
 import { formatLong } from '../lib/dates';
 import { processImage } from '../lib/image';
 import { pickQuestion } from '../lib/questions';
@@ -60,20 +61,23 @@ export default function Capture({ ctx, date }: { ctx: Ctx; date: string }) {
     if (!d.photo || !d.question) { setErr('A fotografia é obrigatória.'); return; }
     setBusy(true); setErr('');
     try {
-      let t = thumb;
-      if (!t) t = (await processImage(new File([d.photo], 'x.jpg', { type: d.photo.type }))).thumb;
-      const now = Date.now();
-      const id = uid();
-      await memories.put({
+      const t = thumb ?? (await processImage(new File([d.photo], 'x.jpg', { type: d.photo.type }))).thumb;
+      const id = crypto.randomUUID();
+      await memories.create({
         id, userId: ctx.userId, date, photo: d.photo, thumb: t, source: d.source ?? 'galeria',
         question: d.question, answer: (d.answer ?? '').trim(),
         question2: d.question2, answer2: d.question2 ? (d.answer2 ?? '').trim() : undefined,
-        createdAt: now, updatedAt: now,
       });
       await drafts.remove(ctx.userId, date);
       ctx.refresh();
       ctx.go({ name: 'memory', id, from: 'today' });
-    } catch (e) { setErr('Não foi possível salvar: ' + (e as Error).message); setBusy(false); }
+    } catch (e) {
+      if (e instanceof DuplicateDateError) {
+        const ex = await memories.byDate(ctx.userId, date).catch(() => undefined);
+        if (ex) { ctx.refresh(); return ctx.go({ name: 'memory', id: ex.id, from: 'today' }); }
+      }
+      setErr('Não foi possível salvar: ' + (e as Error).message + ' Seu rascunho continua guardado.'); setBusy(false);
+    }
   }
 
   async function leave() {

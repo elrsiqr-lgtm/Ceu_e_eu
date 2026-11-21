@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Ctx } from '../App';
-import type { Memory } from '../lib/db';
+import type { Memory } from '../lib/memories';
 import { monthName, pad, todayISO } from '../lib/dates';
 import { Header, Icon, Photo } from './ui';
 
@@ -36,7 +36,7 @@ export default function CalendarScreen({ ctx, list, initialMonth }: { ctx: Ctx; 
             <button key={i} className={`day ${mem ? 'has' : ''} ${iso === today ? 'today' : ''}`} disabled={future}
               aria-label={`${d} de ${monthName(ym.m)}${mem ? ', com memória' : ''}`}
               onClick={() => ctx.go(mem ? { name: 'memory', id: mem.id, from: 'calendar' } : { name: 'capture', date: iso })}>
-              {mem ? <Photo blob={mem.thumb} alt="" /> : d}
+              {mem ? <Photo src={mem.thumbUrl} alt="" /> : d}
             </button>
           );
         })}

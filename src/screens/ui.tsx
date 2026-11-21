@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { useBlobUrl } from '../lib/hooks';
 
 const P: Record<string, ReactNode> = {
   home: <path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" />,
@@ -20,9 +19,8 @@ export const Sparkle = () => (
   <svg className="sparkle" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2 7 7 3-7 3-2 7-2-7-7-3 7-3z" fill="currentColor" /></svg>
 );
 
-export function Photo({ blob, alt, className }: { blob?: Blob; alt: string; className?: string }) {
-  const url = useBlobUrl(blob);
-  return url ? <img src={url} alt={alt} className={className} loading="lazy" /> : <div className={`ph ${className ?? ''}`} />;
+export function Photo({ src, alt, className }: { src?: string; alt: string; className?: string }) {
+  return src ? <img src={src} alt={alt} className={className} loading="lazy" /> : <div className={`ph ${className ?? ''}`} />;
 }
 
 export function Header({ title, onBack, right }: { title: string; onBack?: () => void; right?: ReactNode }) {
