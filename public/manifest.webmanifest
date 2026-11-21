@@ -1,0 +1,11 @@
+{
+  "name": "Entre o Céu e Eu",
+  "short_name": "Céu e Eu",
+  "description": "Guarde como estava o céu. Guarde como você estava.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2E2E4E",
+  "theme_color": "#2E2E4E",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
