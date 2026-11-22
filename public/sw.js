@@ -5,9 +5,9 @@ self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener('push', (event) => {
   let d = {};
   try { d = event.data ? event.data.json() : {}; } catch { /* payload inválido: usa o padrão */ }
-  event.waitUntil(self.registration.showNotification(d.title || 'Entre o Céu e Eu', {
+  event.waitUntil(self.registration.showNotification(d.title || 'Enlevo', {
     body: d.body || 'Um novo céu espera por você.',
-    icon: '/icon.svg', badge: '/icon.svg', tag: 'lembrete-diario',
+    icon: '/icons/icon-192.png', badge: '/icon.svg', tag: 'lembrete-diario',
   }));
 });
 

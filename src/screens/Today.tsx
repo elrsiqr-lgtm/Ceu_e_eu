@@ -1,17 +1,21 @@
 import type { Ctx } from '../App';
 import type { Memory } from '../lib/memories';
 import { formatLong, formatShort, greeting, todayISO } from '../lib/dates';
-import { Icon, Photo, Sparkle } from './ui';
+import { Icon, Photo } from './ui';
+import Logo from './Logo';
+import Horizon from './Horizon';
+import { useHour } from '../lib/hooks';
 
 export default function Today({ ctx, list }: { ctx: Ctx; list: Memory[] | null }) {
+  const hour = useHour();
   const today = todayISO();
   const done = list?.find((m) => m.date === today);
   const last = list?.[0];
   return (
-    <section className="today">
+    <section className="home-screen">
+      <Horizon hour={hour} />
       <div className="hero">
-        <Sparkle />
-        <h1 className="brand">Entre o Céu e Eu</h1>
+        <Logo />
         <p className="greet">{greeting()}</p>
         <p className="date">{formatLong(today)}</p>
         <p className="sub">{done ? 'Seu céu de hoje já está guardado.' : 'Um novo céu espera por você.'}</p>

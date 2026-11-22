@@ -1,7 +1,7 @@
-# Entre o Céu e Eu
+# Enlevo
 
 Diário visual privado: uma fotografia do céu por dia, com reflexões guiadas.
-*Guarde como estava o céu. Guarde como você estava.*
+*Olhe o céu. Guarde o hoje.* (antes chamado "Entre o Céu e Eu")
 
 PWA mobile-first em Vite + React + TypeScript, com **Supabase** (Auth, Postgres, Storage, Edge Functions).
 

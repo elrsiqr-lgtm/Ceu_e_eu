@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { skyAt, luminance } from './sky';
+import { skyAt, luminance, celestialAt } from './sky';
 
 const num = (s: string) => Number(s);
 describe('skyAt', () => {
@@ -33,5 +33,28 @@ describe('skyAt', () => {
   it('aceita qualquer hora sem quebrar', () => {
     for (let h = 0; h < 24; h += 0.25) expect(skyAt(h).vars['--s0']).toMatch(/^rgb\(/);
     expect(skyAt(-1).vars['--s0']).toBe(skyAt(23).vars['--s0']);
+  });
+});
+
+describe('celestialAt', () => {
+  it('sol nasce à esquerda, está no alto ao meio-dia e se põe à direita', () => {
+    const a = celestialAt(6), b = celestialAt(12), c = celestialAt(17.99);
+    expect(a.kind).toBe('sun'); expect(a.alt).toBeCloseTo(0); expect(a.x).toBeCloseTo(0.12);
+    expect(b.alt).toBeCloseTo(1); expect(b.x).toBeCloseTo(0.5);
+    expect(c.alt).toBeLessThan(0.01); expect(c.x).toBeGreaterThan(0.85);
+  });
+  it('lua aparece às 18h e está no alto à meia-noite', () => {
+    const a = celestialAt(18), b = celestialAt(0), c = celestialAt(3);
+    expect(a.kind).toBe('moon'); expect(a.alt).toBeCloseTo(0);
+    expect(b.kind).toBe('moon'); expect(b.alt).toBeCloseTo(1); expect(b.x).toBeCloseTo(0.5);
+    expect(c.x).toBeGreaterThan(b.x);
+  });
+  it('anda sempre para a direita ao longo do dia, sem saltos dentro de cada fase', () => {
+    for (let h = 6.25; h < 18; h += 0.25) expect(celestialAt(h).x).toBeGreaterThan(celestialAt(h - 0.25).x);
+    for (let h = 18.25; h < 24; h += 0.25) expect(celestialAt(h).x).toBeGreaterThan(celestialAt(h - 0.25).x);
+    for (const h of [0, 12, 23.9]) { const c = celestialAt(h); expect(c.alt).toBeGreaterThanOrEqual(0); expect(c.alt).toBeLessThanOrEqual(1); }
+  });
+  it('vira o dia: colinas e cores existem em qualquer hora', () => {
+    for (const h of [0, 6, 12, 18, 23]) expect(skyAt(h).vars['--hill-near']).toMatch(/^rgb\(/);
   });
 });

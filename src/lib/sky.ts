@@ -5,20 +5,20 @@ interface Key { h: number; c: [string, string, string, string, string]; glow: RG
 
 const KEYS: Key[] = [
   // madrugada: azul-escuro suave
-  { h: 0,    name: 'madrugada',  c: ['#16224a', '#1e3060', '#2a427c', '#3a5594', '#4c68a8'], glow: [140, 170, 255], glowA: 0.22, stars: 0.9 },
-  { h: 4.5,  name: 'madrugada',  c: ['#1a2858', '#283d78', '#3d5a96', '#6a82b0', '#97a0c0'], glow: [190, 190, 230], glowA: 0.3,  stars: 0.6 },
-  { h: 6,    name: 'amanhecer',  c: ['#3d5f9e', '#6d8dc4', '#a8b6d8', '#eac4b2', '#f7c99b'], glow: [255, 205, 150], glowA: 0.75, stars: 0.15 },
-  // dia claro
-  { h: 7.5,  name: 'dia',        c: ['#4f8fd8', '#78aee6', '#a4cbef', '#d2e4f4', '#f0efe6'], glow: [255, 236, 190], glowA: 0.5,  stars: 0 },
-  { h: 12,   name: 'dia',        c: ['#3f86dc', '#62a8ee', '#8cc4f6', '#b8dcfa', '#e3f2fd'], glow: [255, 255, 245], glowA: 0.35, stars: 0 },
-  { h: 15.5, name: 'tarde',      c: ['#4a8ad6', '#78a8e0', '#a9c0e0', '#e3d0c0', '#f8dcb0'], glow: [255, 226, 170], glowA: 0.5,  stars: 0 },
+  { h: 0,    name: 'madrugada',  c: ['#1b2550', '#262f66', '#34407c', '#46548f', '#5b6aa0'], glow: [150, 165, 230], glowA: 0.18, stars: 0.9 },
+  { h: 4.5,  name: 'madrugada',  c: ['#222c5c', '#34407a', '#52609a', '#8a8fb8', '#b9b3c8'], glow: [210, 190, 220], glowA: 0.3,  stars: 0.6 },
+  { h: 6,    name: 'amanhecer',  c: ['#6f7cc0', '#a08fcf', '#d3a8d6', '#f3b4b8', '#fbc9a6'], glow: [255, 210, 170], glowA: 0.7,  stars: 0.15 },
+  // dia claro, em tons pastel (azul-lavanda → rosa)
+  { h: 7.5,  name: 'dia',        c: ['#8fa6f2', '#b3b6f4', '#dcc4f2', '#f6d3ec', '#fbe0d6'], glow: [255, 240, 220], glowA: 0.4,  stars: 0 },
+  { h: 12,   name: 'dia',        c: ['#86a4f0', '#a9bdf5', '#cdd2f7', '#e9dcf6', '#f8e8ee'], glow: [255, 255, 245], glowA: 0.3,  stars: 0 },
+  { h: 15.5, name: 'tarde',      c: ['#8f9fe8', '#b5b0ee', '#dcb9e6', '#f5c8d0', '#fbd6b8'], glow: [255, 230, 190], glowA: 0.5,  stars: 0 },
   // entardecer alaranjado
-  { h: 17.5, name: 'entardecer', c: ['#55579a', '#9a80b6', '#e69a8c', '#f5a86e', '#ffc27a'], glow: [255, 214, 150], glowA: 1,    stars: 0.1 },
-  { h: 19,   name: 'anoitecer',  c: ['#2c2a6a', '#5a4086', '#a8527c', '#e0716a', '#f48a5d'], glow: [255, 170, 110], glowA: 0.85, stars: 0.5 },
-  // noite escura
-  { h: 20.5, name: 'noite',      c: ['#0b0d24', '#141638', '#1d1c48', '#2a235c', '#382c68'], glow: [120, 110, 200], glowA: 0.22, stars: 1 },
-  { h: 22.5, name: 'noite',      c: ['#0a0c22', '#121436', '#1a1946', '#26205a', '#342a64'], glow: [120, 110, 200], glowA: 0.18, stars: 1 },
-  { h: 24,   name: 'madrugada',  c: ['#16224a', '#1e3060', '#2a427c', '#3a5594', '#4c68a8'], glow: [140, 170, 255], glowA: 0.22, stars: 0.9 },
+  { h: 17.5, name: 'entardecer', c: ['#6b5fb0', '#a76fb0', '#e0869e', '#f59e82', '#ffbb6e'], glow: [255, 205, 140], glowA: 1,    stars: 0.1 },
+  { h: 19,   name: 'anoitecer',  c: ['#3a3470', '#664584', '#b0557a', '#e97a69', '#f59a52'], glow: [255, 170, 110], glowA: 0.85, stars: 0.5 },
+  // noite: índigo escuro com estrelas e um fio quente no horizonte
+  { h: 20.5, name: 'noite',      c: ['#1a1745', '#2a2262', '#43337a', '#6b4a85', '#a1608a'], glow: [255, 160, 110], glowA: 0.45, stars: 1 },
+  { h: 22.5, name: 'noite',      c: ['#15133b', '#221d55', '#382c6c', '#59407a', '#7f5384'], glow: [255, 160, 110], glowA: 0.35, stars: 1 },
+  { h: 24,   name: 'madrugada',  c: ['#1b2550', '#262f66', '#34407c', '#46548f', '#5b6aa0'], glow: [150, 165, 230], glowA: 0.18, stars: 0.9 },
 ];
 
 const hex = (s: string): RGB => [1, 3, 5].map((i) => parseInt(s.slice(i, i + 2), 16)) as RGB;
@@ -68,6 +68,13 @@ export function skyAt(hour: number): Sky {
     '--sky-shadow': darkText
       ? '0 1px 0 rgba(255,255,255,.55), 0 0 22px rgba(255,255,255,.55)'
       : '0 2px 0 rgba(46,40,100,.28), 0 0 22px rgba(255,222,180,.6), 0 10px 30px rgba(36,30,80,.45)',
+    '--sky-logo': darkText ? INK : '#fde8d4',
+    '--hill-far': css(mix(colors[3], [78, 62, 138], 0.5)),
+    '--hill-near': css(mix(colors[4], [54, 42, 108], 0.64)),
+    '--ridge': css(mix(mix([255, 190, 130], [255, 255, 255], 0.2), glow, 0.4)),
+    '--sky-star-glow': darkText
+      ? 'drop-shadow(0 0 4px rgba(255,255,255,.95)) drop-shadow(0 0 12px rgba(255,255,255,.8)) drop-shadow(0 0 26px rgba(255,255,255,.5))'
+      : 'drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 12px rgba(255,214,160,.95)) drop-shadow(0 0 28px rgba(255,170,110,.65))',
     '--sky-accent': darkText ? '#e8743f' : '#f7d7b5',
     '--sky-err': darkText ? '#8f1d12' : '#ffe1d6',
   };
@@ -75,3 +82,12 @@ export function skyAt(hour: number): Sky {
 }
 
 export const hourNow = (d = new Date()) => d.getHours() + d.getMinutes() / 60;
+
+export interface Celestial { kind: 'sun' | 'moon'; x: number; alt: number }
+/** Posição do sol (6h–18h) ou da lua (18h–6h): x de 0 a 1 (esquerda→direita) e altura 0 (horizonte) a 1 (topo do arco). */
+export function celestialAt(hour: number): Celestial {
+  const h = ((hour % 24) + 24) % 24;
+  const sun = h >= 6 && h < 18;
+  const t = sun ? (h - 6) / 12 : (h >= 18 ? h - 18 : h + 6) / 12;
+  return { kind: sun ? 'sun' : 'moon', x: 0.12 + 0.76 * t, alt: Math.sin(Math.PI * t) };
+}

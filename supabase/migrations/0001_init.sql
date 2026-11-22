@@ -1,4 +1,4 @@
--- Entre o Céu e Eu — schema inicial
+-- Enlevo — schema inicial
 -- Rode no SQL Editor do Supabase (ou `supabase db push`).
 
 -- ============ memórias ============
