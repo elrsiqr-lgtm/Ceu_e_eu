@@ -1,11 +1,16 @@
 {
-  "name": "Entre o Céu e Eu",
-  "short_name": "Céu e Eu",
-  "description": "Guarde como estava o céu. Guarde como você estava.",
+  "name": "Enlevo",
+  "short_name": "Enlevo",
+  "description": "Olhe o céu. Guarde o hoje.",
   "lang": "pt-BR",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#2E2E4E",
-  "theme_color": "#2E2E4E",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+  "background_color": "#2b2860",
+  "theme_color": "#2b2860",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
 }

@@ -9,10 +9,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#fbeee0,var(--crep));position:relative}
 .app.sky{color:var(--sky-fg,#fff);isolation:isolate;
   background:
-    radial-gradient(125% 50% at 50% 104%,rgb(var(--glow,255 246 220)/calc(var(--glow-a,1)*1)) 0%,rgb(var(--glow,255 224 170)/calc(var(--glow-a,1)*.92)) 16%,rgb(var(--glow,255 176 118)/calc(var(--glow-a,1)*.55)) 38%,rgb(var(--glow,244 140 96)/0) 78%),
-    radial-gradient(40% 22% at 50% 98%,rgb(255 252 236/calc(var(--glow-a,1)*.8)),transparent 70%),
-    radial-gradient(55% 26% at 18% 60%,rgb(255 220 196/.28),transparent 72%),
-    radial-gradient(65% 30% at 88% 46%,rgb(218 196 240/.28),transparent 72%),
+    radial-gradient(120% 44% at 50% 104%,rgb(var(--glow,255 224 170)/calc(var(--glow-a,1)*.95)) 0%,rgb(var(--glow,255 176 118)/calc(var(--glow-a,1)*.5)) 34%,rgb(var(--glow,244 140 96)/0) 72%),
     linear-gradient(180deg,var(--s0,#34316a) 0%,var(--s1,#51498f) 25%,var(--s2,#8d7cba) 50%,var(--s3,#d4a3b6) 75%,var(--s4,#f08a5d) 100%);
   transition:color .6s}
 main{position:relative;z-index:1;flex:1;padding:0 16px calc(112px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
@@ -83,24 +80,58 @@ textarea{resize:vertical;min-height:110px}
 code{background:#0003;padding:1px 5px;border-radius:5px}
 
 /* ===== céu: estrelas e brilho ===== */
-.app.sky::before,.app.sky::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0}
-.app.sky::before{background-image:
-  radial-gradient(1.6px 1.6px at 12% 7%,#fff,transparent),radial-gradient(1.2px 1.2px at 27% 14%,#fff,transparent),
-  radial-gradient(2px 2px at 41% 5%,#fff,transparent),radial-gradient(1.2px 1.2px at 58% 12%,#fff,transparent),
-  radial-gradient(1.8px 1.8px at 73% 6%,#fff,transparent),radial-gradient(1.2px 1.2px at 88% 15%,#fff,transparent),
-  radial-gradient(1.4px 1.4px at 19% 24%,#fff,transparent),radial-gradient(1.6px 1.6px at 66% 26%,#fff,transparent),
-  radial-gradient(1.2px 1.2px at 93% 31%,#fff,transparent),radial-gradient(1.4px 1.4px at 6% 33%,#fff,transparent);
-  -webkit-mask-image:linear-gradient(#000,transparent 48%);mask-image:linear-gradient(#000,transparent 48%);opacity:calc(.85*var(--stars,1))}
-.app.sky::after{background:linear-gradient(112deg,transparent 38%,rgba(255,236,205,.34) 50%,transparent 62%);background-size:260% 100%;background-position:130% 0;mix-blend-mode:soft-light}
+.app.sky::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:
+  radial-gradient(1.2px 1.2px at 45% 6%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 72% 5%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 31% 4%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 34% 4%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 19% 38%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 77% 20%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 75% 6%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 19% 35%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 17% 20%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 16% 19%,#fff,transparent),
+  radial-gradient(1.8px 1.8px at 30% 19%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 78% 16%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 93% 4%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 67% 27%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 19% 15%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 66% 15%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 77% 12%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 67% 20%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 64% 41%,#fff,transparent),
+  radial-gradient(1.8px 1.8px at 86% 27%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 89% 2%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 82% 5%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 20% 14%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 25% 14%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 59% 10%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 91% 14%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 23% 9%,#fff,transparent),
+  radial-gradient(1.8px 1.8px at 27% 10%,#fff,transparent),
+  radial-gradient(1.4px 1.4px at 72% 21%,#fff,transparent),
+  radial-gradient(2.6px 2.6px at 92% 38%,#fff,transparent),
+  radial-gradient(1.8px 1.8px at 10% 19%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 54% 17%,#fff,transparent),
+  radial-gradient(1.2px 1.2px at 28% 4%,#fff,transparent),
+  radial-gradient(2.2px 2.2px at 47% 21%,#fff,transparent);
+  -webkit-mask-image:linear-gradient(#000 25%,transparent 58%);mask-image:linear-gradient(#000 25%,transparent 58%);opacity:calc(.95*var(--stars,1))}
 @media (prefers-reduced-motion:no-preference){
   .app.sky::before{animation:twinkle 4.5s ease-in-out infinite}
-  .app.sky::after{animation:sweep 11s ease-in-out infinite}
-  .sparkle{animation:pulse 3.2s ease-in-out infinite}
+    .sparkle{animation:pulse 3.2s ease-in-out infinite}
   .sky .pill.light::after,.authbox .pill::after{animation:shine 5s ease-in-out infinite}
   .lastcard{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
   @keyframes twinkle{0%,100%{opacity:calc(.55*var(--stars,1))}50%{opacity:var(--stars,1)}}
-  @keyframes sweep{0%{background-position:130% 0}60%,100%{background-position:-30% 0}}
   @keyframes pulse{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(8deg)}}
   @keyframes shine{0%,55%{background-position:130% 0}100%{background-position:-30% 0}}
   @keyframes rise{from{opacity:0;transform:translateY(18px)}}
 }
+
+/* ===== marca Enlevo ===== */
+.logo{display:inline-flex;flex-direction:column;align-items:center;color:var(--sky-logo,#fde8d4)}
+.logo-mark{position:relative;padding-top:1.15em;font-size:1rem}
+.logo-word{margin:0;font-family:var(--serif);font-weight:400;font-style:normal;letter-spacing:-.01em;line-height:1;text-shadow:var(--sky-shadow)}
+.logo.md .logo-word{font-size:3rem}.logo.lg .logo-word{font-size:3.6rem}
+.logo-arc{position:absolute;left:6%;top:.05em;width:84%;height:1.1em;overflow:visible;filter:drop-shadow(0 0 6px rgba(255,214,170,.45))}
+.logo .sparkle{position:absolute;right:-1%;top:-.1em;width:1.55em;height:1.55em;color:var(--sky-accent,#fde8d4)}
+.logo-tag{margin:.9em 0 1.6rem;font-family:var(--sans);font-weight:300;font-size:.95rem;letter-spacing:.08em;opacity:.92;text-shadow:var(--sky-shadow)}

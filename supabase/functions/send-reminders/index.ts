@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
   const { data: due, error } = await admin.rpc('due_reminders');
   if (error) return new Response(error.message, { status: 500 });
 
-  const payload = JSON.stringify({ title: 'Entre o Céu e Eu', body: 'Um novo céu espera por você.' });
+  const payload = JSON.stringify({ title: 'Enlevo', body: 'Um novo céu espera por você.' });
   let notified = 0;
   for (const { user_id, local_date } of due ?? []) {
     const { data: subs } = await admin.from('push_subscriptions').select('id, endpoint, p256dh, auth').eq('user_id', user_id);
