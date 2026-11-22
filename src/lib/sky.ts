@@ -69,6 +69,9 @@ export function skyAt(hour: number): Sky {
       ? '0 1px 0 rgba(255,255,255,.55), 0 0 22px rgba(255,255,255,.55)'
       : '0 2px 0 rgba(46,40,100,.28), 0 0 22px rgba(255,222,180,.6), 0 10px 30px rgba(36,30,80,.45)',
     '--sky-logo': darkText ? INK : '#fde8d4',
+    '--sky-star-glow': darkText
+      ? 'drop-shadow(0 0 4px rgba(255,255,255,.95)) drop-shadow(0 0 12px rgba(255,255,255,.8)) drop-shadow(0 0 26px rgba(255,255,255,.5))'
+      : 'drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 12px rgba(255,214,160,.95)) drop-shadow(0 0 28px rgba(255,170,110,.65))',
     '--sky-accent': darkText ? '#e8743f' : '#f7d7b5',
     '--sky-err': darkText ? '#8f1d12' : '#ffe1d6',
   };

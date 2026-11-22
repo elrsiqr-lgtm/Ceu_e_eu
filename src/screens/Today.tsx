@@ -9,7 +9,7 @@ export default function Today({ ctx, list }: { ctx: Ctx; list: Memory[] | null }
   const done = list?.find((m) => m.date === today);
   const last = list?.[0];
   return (
-    <section className="today">
+    <section className="home-screen">
       <div className="hero">
         <Logo />
         <p className="greet">{greeting()}</p>
