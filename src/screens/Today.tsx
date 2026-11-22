@@ -3,13 +3,17 @@ import type { Memory } from '../lib/memories';
 import { formatLong, formatShort, greeting, todayISO } from '../lib/dates';
 import { Icon, Photo } from './ui';
 import Logo from './Logo';
+import Horizon from './Horizon';
+import { useHour } from '../lib/hooks';
 
 export default function Today({ ctx, list }: { ctx: Ctx; list: Memory[] | null }) {
+  const hour = useHour();
   const today = todayISO();
   const done = list?.find((m) => m.date === today);
   const last = list?.[0];
   return (
     <section className="home-screen">
+      <Horizon hour={hour} />
       <div className="hero">
         <Logo />
         <p className="greet">{greeting()}</p>

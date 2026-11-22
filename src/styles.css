@@ -135,3 +135,11 @@ code{background:#0003;padding:1px 5px;border-radius:5px}
 .logo-arc{position:absolute;left:6%;top:.05em;width:84%;height:1.1em;overflow:visible;filter:drop-shadow(0 0 6px rgba(255,214,170,.45))}
 .logo .sparkle{position:absolute;right:-1%;top:-.12em;width:1.7em;height:1.7em;color:var(--sky-logo,#fde8d4);filter:var(--sky-star-glow,drop-shadow(0 0 5px #fff) drop-shadow(0 0 14px rgba(255,214,160,.95)))}
 .logo-tag{margin:.9em 0 1.6rem;font-family:var(--sans);font-weight:300;font-size:.95rem;letter-spacing:.08em;opacity:.92;text-shadow:var(--sky-shadow)}
+
+/* ===== paisagem: colinas + sol/lua ===== */
+.scene{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.hills{position:absolute;left:0;bottom:0;width:100%;height:36%;display:block}
+.body{position:absolute;transform:translate(-50%,-50%);border-radius:50%;transition:left 1s,top 1s}
+.body.sun{width:76px;height:76px;background:radial-gradient(circle at 50% 38%,#fffbe8 0%,#ffe2ae 55%,#fbbd80 100%);
+  box-shadow:0 0 34px 10px rgb(var(--glow,255 210 150)/.6),0 0 90px 34px rgb(var(--glow,255 190 130)/.32)}
+.body.moon{width:42px;height:42px;background:transparent;box-shadow:-13px 5px 0 0 #fde8d4;filter:drop-shadow(0 0 12px rgba(255,232,200,.85)) drop-shadow(0 0 30px rgba(190,180,255,.5))}

@@ -69,6 +69,9 @@ export function skyAt(hour: number): Sky {
       ? '0 1px 0 rgba(255,255,255,.55), 0 0 22px rgba(255,255,255,.55)'
       : '0 2px 0 rgba(46,40,100,.28), 0 0 22px rgba(255,222,180,.6), 0 10px 30px rgba(36,30,80,.45)',
     '--sky-logo': darkText ? INK : '#fde8d4',
+    '--hill-far': css(mix(colors[3], [78, 62, 138], 0.5)),
+    '--hill-near': css(mix(colors[4], [54, 42, 108], 0.64)),
+    '--ridge': css(mix(mix([255, 190, 130], [255, 255, 255], 0.2), glow, 0.4)),
     '--sky-star-glow': darkText
       ? 'drop-shadow(0 0 4px rgba(255,255,255,.95)) drop-shadow(0 0 12px rgba(255,255,255,.8)) drop-shadow(0 0 26px rgba(255,255,255,.5))'
       : 'drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 12px rgba(255,214,160,.95)) drop-shadow(0 0 28px rgba(255,170,110,.65))',
@@ -79,3 +82,12 @@ export function skyAt(hour: number): Sky {
 }
 
 export const hourNow = (d = new Date()) => d.getHours() + d.getMinutes() / 60;
+
+export interface Celestial { kind: 'sun' | 'moon'; x: number; alt: number }
+/** Posição do sol (6h–18h) ou da lua (18h–6h): x de 0 a 1 (esquerda→direita) e altura 0 (horizonte) a 1 (topo do arco). */
+export function celestialAt(hour: number): Celestial {
+  const h = ((hour % 24) + 24) % 24;
+  const sun = h >= 6 && h < 18;
+  const t = sun ? (h - 6) / 12 : (h >= 18 ? h - 18 : h + 6) / 12;
+  return { kind: sun ? 'sun' : 'moon', x: 0.12 + 0.76 * t, alt: Math.sin(Math.PI * t) };
+}

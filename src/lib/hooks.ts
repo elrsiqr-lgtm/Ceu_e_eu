@@ -37,3 +37,15 @@ export function useSky(): CSSProperties {
   }, []);
   return sky.vars as CSSProperties;
 }
+
+/** Hora do dia (fracionária) que se atualiza a cada minuto. */
+export function useHour(): number {
+  const [h, setH] = useState(() => hourNow());
+  useEffect(() => {
+    const tick = () => setH(hourNow());
+    const id = setInterval(tick, 60_000);
+    document.addEventListener('visibilitychange', tick);
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', tick); };
+  }, []);
+  return h;
+}
