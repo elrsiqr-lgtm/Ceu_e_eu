@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
+import { skyAt, hourNow } from './sky';
 import { memories, type Memory } from './memories';
 
 export function useBlobUrl(blob?: Blob) {
@@ -23,4 +24,16 @@ export function useMemories(userId: string, version: number): [Memory[] | null, 
     return () => { on = false; };
   }, [userId, version]);
   return [list, error];
+}
+
+/** Estilo (variáveis CSS) do céu para a hora atual; atualiza a cada minuto e ao voltar para o app. */
+export function useSky(): CSSProperties {
+  const [sky, setSky] = useState(() => skyAt(hourNow()));
+  useEffect(() => {
+    const tick = () => setSky(skyAt(hourNow()));
+    const id = setInterval(tick, 60_000);
+    document.addEventListener('visibilitychange', tick);
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', tick); };
+  }, []);
+  return sky.vars as CSSProperties;
 }

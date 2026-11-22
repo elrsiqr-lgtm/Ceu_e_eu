@@ -7,17 +7,19 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--sol);outline-offset:2px}
 .boot{height:100%;background:var(--noite)}
 .app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#fbeee0,var(--crep));position:relative}
-.app.sky{color:#fff;isolation:isolate;
+.app.sky{color:var(--sky-fg,#fff);isolation:isolate;
   background:
-    radial-gradient(125% 50% at 50% 104%,#fff6dc 0%,rgba(255,224,170,.98) 16%,rgba(255,176,118,.78) 36%,rgba(244,140,96,.35) 58%,rgba(240,138,93,0) 78%),
-    radial-gradient(40% 22% at 50% 98%,rgba(255,252,236,.9),transparent 70%),
-    radial-gradient(55% 26% at 18% 60%,rgba(255,220,196,.5),transparent 72%),
-    radial-gradient(65% 30% at 88% 46%,rgba(218,196,240,.5),transparent 72%),
-    linear-gradient(180deg,#34316a 0%,#51498f 20%,#8d7cba 40%,#d4a3b6 60%,#f0a98a 80%,#f08a5d 100%)}
+    radial-gradient(125% 50% at 50% 104%,rgb(var(--glow,255 246 220)/calc(var(--glow-a,1)*1)) 0%,rgb(var(--glow,255 224 170)/calc(var(--glow-a,1)*.92)) 16%,rgb(var(--glow,255 176 118)/calc(var(--glow-a,1)*.55)) 38%,rgb(var(--glow,244 140 96)/0) 78%),
+    radial-gradient(40% 22% at 50% 98%,rgb(255 252 236/calc(var(--glow-a,1)*.8)),transparent 70%),
+    radial-gradient(55% 26% at 18% 60%,rgb(255 220 196/.28),transparent 72%),
+    radial-gradient(65% 30% at 88% 46%,rgb(218 196 240/.28),transparent 72%),
+    linear-gradient(180deg,var(--s0,#34316a) 0%,var(--s1,#51498f) 25%,var(--s2,#8d7cba) 50%,var(--s3,#d4a3b6) 75%,var(--s4,#f08a5d) 100%);
+  transition:color .6s}
 main{position:relative;z-index:1;flex:1;padding:0 16px calc(112px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
-.icon{width:22px;height:22px}.sparkle{width:26px;height:26px;color:var(--crep);filter:drop-shadow(0 0 6px rgba(255,226,180,.95)) drop-shadow(0 0 18px rgba(255,170,110,.8))}
+.icon{width:22px;height:22px}.sparkle{width:26px;height:26px;color:var(--sky-accent,var(--crep));filter:drop-shadow(0 0 6px rgba(255,226,180,.95)) drop-shadow(0 0 18px rgba(255,170,110,.8))}
 .brand{font-family:var(--serif);font-style:italic;font-weight:400;font-size:2rem;margin:.3em 0}
-.sky .brand{text-shadow:0 2px 0 rgba(46,40,100,.28),0 0 22px rgba(255,222,180,.6),0 10px 30px rgba(36,30,80,.45)}
+.sky .brand{text-shadow:var(--sky-shadow,0 2px 0 rgba(46,40,100,.28),0 0 22px rgba(255,222,180,.6),0 10px 30px rgba(36,30,80,.45))}
+.sky .greet,.sky .date,.sky .sub{text-shadow:var(--sky-shadow,none)}
 .head{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 0 8px}
 .head h1{font-family:var(--serif);font-weight:500;font-size:1.2rem;text-align:center;margin:0}
 .iconbtn{width:44px;height:44px;display:grid;place-items:center;border-radius:50%}
@@ -45,7 +47,7 @@ main{position:relative;z-index:1;flex:1;padding:0 16px calc(112px + env(safe-are
 .sky .pill.light:active,.authbox .pill:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 -4px 8px rgba(214,128,70,.35) inset,0 1px 0 #cf8556,0 8px 14px rgba(36,30,80,.35),0 0 30px rgba(255,190,130,.4)}.pill.dark{background:var(--noite);color:#fff}
 .pill.outline{border:1.5px solid var(--noite)}.pill:disabled{opacity:.6}
 .textbtn{padding:10px;text-decoration:underline;color:inherit;opacity:.85;min-height:44px}.textbtn.danger{color:#a3301c}
-.sky .textbtn{color:#fff}
+.sky .textbtn{color:var(--sky-fg,#fff)}
 /* galeria / calendário */
 .mosaic{columns:2;column-gap:8px}.tile{display:block;width:100%;margin:0 0 8px;padding:0;border-radius:14px;overflow:hidden;break-inside:avoid}
 .tile img,.tile .ph{width:100%;display:block;min-height:90px}
@@ -74,8 +76,8 @@ textarea{resize:vertical;min-height:110px}
 .tag{font-family:var(--serif);font-style:italic;margin:0 0 16px;opacity:.95}
 .authbox form{display:flex;flex-direction:column;gap:12px;width:100%;align-items:center}
 .authbox label{display:flex;flex-direction:column;gap:4px;text-align:left;width:100%;font-size:.85rem}
-.links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}.links button{text-decoration:underline;color:#fff;min-height:44px}
-.fine{font-size:.78rem;opacity:.85}.auth .err{color:#ffe1d6;font-weight:600}.auth .ok{color:#fff}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}.links button{text-decoration:underline;color:var(--sky-fg,#fff);min-height:44px}
+.fine{font-size:.78rem;opacity:.85}.auth .err{color:var(--sky-err,#ffe1d6);font-weight:600}.auth .ok{color:var(--sky-fg,#fff)}
 @media (prefers-reduced-motion:no-preference){.tile,.day,.pill{transition:transform .15s}.tile:active,.pill:active{transform:scale(.98)}}
 .banner{background:#fff8;border-radius:12px;padding:10px 14px;margin:12px 0 0}.banner .textbtn{display:inline;min-height:0;padding:0 4px}
 code{background:#0003;padding:1px 5px;border-radius:5px}
@@ -88,7 +90,7 @@ code{background:#0003;padding:1px 5px;border-radius:5px}
   radial-gradient(1.8px 1.8px at 73% 6%,#fff,transparent),radial-gradient(1.2px 1.2px at 88% 15%,#fff,transparent),
   radial-gradient(1.4px 1.4px at 19% 24%,#fff,transparent),radial-gradient(1.6px 1.6px at 66% 26%,#fff,transparent),
   radial-gradient(1.2px 1.2px at 93% 31%,#fff,transparent),radial-gradient(1.4px 1.4px at 6% 33%,#fff,transparent);
-  -webkit-mask-image:linear-gradient(#000,transparent 48%);mask-image:linear-gradient(#000,transparent 48%);opacity:.85}
+  -webkit-mask-image:linear-gradient(#000,transparent 48%);mask-image:linear-gradient(#000,transparent 48%);opacity:calc(.85*var(--stars,1))}
 .app.sky::after{background:linear-gradient(112deg,transparent 38%,rgba(255,236,205,.34) 50%,transparent 62%);background-size:260% 100%;background-position:130% 0;mix-blend-mode:soft-light}
 @media (prefers-reduced-motion:no-preference){
   .app.sky::before{animation:twinkle 4.5s ease-in-out infinite}
@@ -96,7 +98,7 @@ code{background:#0003;padding:1px 5px;border-radius:5px}
   .sparkle{animation:pulse 3.2s ease-in-out infinite}
   .sky .pill.light::after,.authbox .pill::after{animation:shine 5s ease-in-out infinite}
   .lastcard{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
-  @keyframes twinkle{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes twinkle{0%,100%{opacity:calc(.55*var(--stars,1))}50%{opacity:var(--stars,1)}}
   @keyframes sweep{0%{background-position:130% 0}60%,100%{background-position:-30% 0}}
   @keyframes pulse{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(8deg)}}
   @keyframes shine{0%,55%{background-position:130% 0}100%{background-position:-30% 0}}
