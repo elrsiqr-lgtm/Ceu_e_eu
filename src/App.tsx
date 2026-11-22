@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { configured, supabase } from './lib/supabase';
 import { settings } from './lib/settings';
 import { ensurePush } from './lib/push';
-import { useMemories } from './lib/hooks';
+import { useMemories, useSky } from './lib/hooks';
 import { AuthScreen, NewPasswordScreen, SetupScreen } from './screens/Auth';
 import Today from './screens/Today';
 import Capture from './screens/Capture';
@@ -44,6 +44,7 @@ function Shell({ userId }: { userId: string }) {
   const [version, setVersion] = useState(0);
   const refresh = useCallback(() => setVersion((v) => v + 1), []);
   const [list, loadError] = useMemories(userId, version);
+  const sky = useSky();
 
   useEffect(() => {
     settings.syncTimezone(userId).catch(() => {});
@@ -53,7 +54,7 @@ function Shell({ userId }: { userId: string }) {
   const ctx: Ctx = { userId, go: setRoute, refresh, version };
   const tab = route.name === 'memory' ? route.from : route.name === 'capture' ? 'today' : route.name;
   return (
-    <div className={`app ${tab === 'today' ? 'sky' : ''}`}>
+    <div className={`app ${tab === 'today' ? 'sky' : ''}`} style={tab === 'today' ? sky : undefined}>
       <main>
         {loadError && <p className="err banner" role="alert">{loadError} <button className="textbtn" onClick={refresh}>Tentar de novo</button></p>}
         {route.name === 'today' && <Today ctx={ctx} list={list} />}

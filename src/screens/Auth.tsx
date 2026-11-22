@@ -1,10 +1,12 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { signIn, signUp, requestPasswordReset, updatePassword } from '../lib/auth';
 import { Sparkle } from './ui';
+import { useSky } from '../lib/hooks';
 
 function Frame({ children }: { children: ReactNode }) {
+  const sky = useSky();
   return (
-    <div className="app sky auth"><div className="authbox">
+    <div className="app sky auth" style={sky}><div className="authbox">
       <Sparkle /><h1 className="brand">Entre o Céu e Eu</h1>
       <p className="tag">Guarde como estava o céu.<br />Guarde como você estava.</p>
       {children}
