@@ -47,10 +47,13 @@ export async function signOut(): Promise<void> {
   await supabase.auth.signOut();
 }
 
+// Endereço da Edge Function de exclusão de conta neste projeto (o painel sorteou este nome).
+const DELETE_ACCOUNT_FN = 'smart-api';
+
 /** Exclui conta, fotos e registros (Edge Function `delete-account`), depois encerra a sessão. */
 export async function deleteAccount(): Promise<void> {
   await disablePush().catch(() => {});
-  const { error } = await supabase.functions.invoke('delete-account');
+  const { error } = await supabase.functions.invoke(DELETE_ACCOUNT_FN);
   if (error) throw new Error('Não foi possível excluir a conta agora. Tente novamente.');
   await supabase.auth.signOut({ scope: 'local' });
 }
