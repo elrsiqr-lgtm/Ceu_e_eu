@@ -37,7 +37,7 @@ npm run build
 - **Privacidade:** RLS em todas as tabelas e políticas de Storage por pasta (`<user_id>/…`). Restrições no banco impedem apontar para arquivos de outro usuário e garantem **uma memória por usuário e data**.
 - **Datas:** `YYYY-MM-DD` no fuso local do aparelho.
 - **Rascunho:** foto e respostas são autosalvas no aparelho (IndexedDB) e sobrevivem a recarregar a página ou a uma falha de rede ao salvar.
-- **Exclusão de conta:** Edge Function `delete-account` apaga as fotos, o usuário e (em cascata) todos os registros.
+- **Exclusão de conta:** Edge Function (código em `supabase/functions/delete-account`; no painel ela foi publicada como `smart-api`, nome configurado em `src/lib/auth.ts`) apaga as fotos, o usuário e (em cascata) todos os registros.
 
 ## Limitações
 
